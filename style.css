@@ -1,0 +1,19 @@
+.navigation {
+    padding: 0 20px;
+}
+
+main {
+    margin: 48px 0;
+    padding: 24px 0;
+}
+
+.px-0 {
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+@media only screen and (max-width: 576px) {
+    .navbar-nav {
+        display:  none;
+    }
+}
