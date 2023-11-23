@@ -17,3 +17,11 @@ main {
         display:  none;
     }
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-item:active {
+    background-color: #343a40;
+}
