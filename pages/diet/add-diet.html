@@ -15,32 +15,33 @@
 <body>
     <div class="d-flex align-items-center min-vh-100 justify-content-center">
         <div class="border border-1 px-5 py-4 rounded-1 add-recipe">
-            <h2 class="text-center mb-4">Create a recipe</h2>
+            <h2 class="text-center mb-4">Create a diet</h2>
             <form method="POST" action="/recipes/add">
                 <div class="mb-4">
                         <label for="name" class="form-label">Name: </label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter the name of the diet here">
                 </div>
                 <div class="mb-4">
                     <label for="description" class="form-label">Description: </label>
                     <textarea class="form-control"></textarea>
                 </div>
                 <div class="mb-4 col" id="items">
-                    <label for="item" class="form-label">Add ingredient: </label>
+                    <label for="item" class="form-label">Add meal: </label>
                     <div class="input-group">
-                        <input type="text" name="item" id="item" class="form-control" placeholder="Ingredient name">
+                        <input type="text" name="item" id="item" class="form-control" placeholder="Meal name">
                         <button type="button" id="add-item" class="input-group-text">
                             <i class="fa-solid fa-circle-plus"></i>
                         </button>
                     </div>
                     <div id="item-exists-alert" class="alert alert-warning d-none">
-                        This ingredient has already been added!
+                        This recipe has already been added!
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Add recipe</button>
             </form>
         </div>
     </div>
+    <!-- TODO: add dropdown to pick day / Configure per day -->
     <script src="/js/add-recipe.js"></script>
     <script src="/js/jquery.js"></script>
 </body>

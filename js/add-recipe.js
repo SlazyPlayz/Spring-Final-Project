@@ -21,44 +21,45 @@
 //     }   
 // })
 
-const addIngredientBtn = document.getElementById('add-ingredient');
-addIngredientBtn.addEventListener('click', addIngredient);
-const ingredientsDiv = document.getElementById('ingredients');
-const ingredientExists = document.getElementById('ingredient-exists-alert');
+const addItemBtn = document.getElementById('add-item');
+addItemBtn.addEventListener('click', additem);
+const itemsDiv = document.getElementById('items');
+const itemExists = document.getElementById('item-exists-alert');
 
-async function addIngredient() {
-    const ingredientName = document.getElementById('ingredient').value;
+async function additem() {
+    const itemName = document.getElementById('item').value;
 
-    if (ingredientName.length > 0) {
+    if (itemName.length > 0) {
 
-        if (document.getElementById(ingredientName) == null) {
+        if (document.getElementById(itemName) == null) {
 
-            ingredientsDiv.appendChild(await createIngredient(ingredientName));
+            itemsDiv.appendChild(await createItem(itemName));
 
-            const btn = document.getElementById('btn-' + ingredientName);
+            const btn = document.getElementById('btn-' + itemName);
             btn.addEventListener('click', () => {
-                const ingredient = document.getElementById(ingredientName);
-                ingredientsDiv.removeChild(ingredient);
+                const item = document.getElementById(itemName);
+                itemsDiv.removeChild(item);
+                itemExists.className = 'alert alert-warning d-none';
             });
 
-            ingredientExists.className = 'alert alert-warning d-none';
+            itemExists.className = 'alert alert-warning d-none';
 
         } else {
-            ingredientExists.className = 'alert alert-warning mt-1 mb-0 py-2';
+            itemExists.className = 'alert alert-warning mt-1 mb-0 py-2';
         }
         
-        ingredient.value = '';
+        item.value = '';
     }
 }
 
-async function createIngredient(name) {
+async function createItem(name) {
     const groupDiv = document.createElement('div');
     groupDiv.className= 'input-group mt-1';
     groupDiv.id = name;
 
     const textInput = document.createElement('input');
     textInput.type = 'text';
-    textInput.name = 'ingredient';
+    textInput.name = 'item';
     textInput.className = 'form-control bg-dark';
     textInput.value = name;
     textInput.disabled = true;
