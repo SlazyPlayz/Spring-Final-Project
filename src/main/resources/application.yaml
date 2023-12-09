@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dieter?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true&serverTimezone=UTC
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASS}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    #    defer-datasource-initialization: true
+    #    properties:
+    #      hibernate:
+    #        format_sql: true
+    hibernate:
+      ddl-auto: update
+#  sql:
+#    init:
+#      mode: never
+#  mvc:
+#    hiddenmethod:
+#      filter:
+#        enabled: true
+
+dieter:
+  remember.me.key: ${REMEMBER_ME_KEY:topsecret}
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+
+#open.exchange.rates:
+#  schema: https
+#  host: openexchangerates.org
+#  path: /api/latest.json
+#  app_id: ${APP_ID:test}
+#  symbols: EUR,BGN
+#  enabled: false
+
+mail:
+  mobilele: "exam@example.com"
+  host: localhost
+  port: 1025
+  username: ${MAIL_USER:mailuser}
+  password: ${MAIL_PASS:mailpass}
