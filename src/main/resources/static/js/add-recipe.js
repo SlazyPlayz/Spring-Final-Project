@@ -21,61 +21,73 @@
 //     }   
 // })
 
-const addItemBtn = document.getElementById('add-item');
-addItemBtn.addEventListener('click', additem);
-const itemsDiv = document.getElementById('items');
-const itemExists = document.getElementById('item-exists-alert');
+// async function addItem() {
+//
+//     const addItemBtn = document.getElementById('add-item');
+//     addItemBtn.addEventListener('click', addItem);
+//
+//     const itemsDiv = document.getElementById('ingredients-list');
+//     const itemExists = document.getElementById('item-exists-alert');
+//
+//     const item = document.getElementById('item');
+//     let itemName = item.value;
+//
+//     if (itemName.length > 0) {
+//
+//         if (document.getElementById(itemName) == null) {
+//
+//             itemsDiv.appendChild(await createItem(itemName));
+//
+//             const btn = document.getElementById('btn-' + itemName);
+//             btn.addEventListener('click', () => {
+//                 const item = document.getElementById(itemName);
+//                 itemsDiv.removeChild(item);
+//                 itemExists.className = 'alert alert-warning d-none';
+//             });
+//
+//             itemExists.className = 'alert alert-warning d-none';
+//
+//         } else {
+//             itemExists.className = 'alert alert-warning mt-1 mb-0 py-2';
+//         }
+//
+//         item.value = '';
+//     }
+// }
+//
+// async function createItem(name) {
+//     const groupDiv = document.createElement('div');
+//     groupDiv.className= 'input-group mt-1';
+//     groupDiv.id = name;
+//
+//     const textInput = document.createElement('input');
+//     textInput.type = 'text';
+//     textInput.name = 'ingredient';
+//     textInput.className = 'form-control bg-dark';
+//     textInput.value = name;
+//     textInput.disabled = true;
+//     textInput.setAttribute("th:field", "${ingredients}")
+//
+//     const btn = document.createElement('button');
+//     btn.type = 'button';
+//     btn.id = 'btn-' + name;
+//     btn.className = 'input-group-text';
+//
+//     const removeIcon = document.createElement('i');
+//     removeIcon.className = 'fa-solid fa-circle-minus';
+//
+//     btn.appendChild(removeIcon);
+//
+//     groupDiv.appendChild(textInput);
+//     groupDiv.appendChild(btn);
+//
+//     return groupDiv;
+// }
 
-async function additem() {
-    const itemName = document.getElementById('item').value;
+function confirmIngredients() {
+    fetch('https://localhost:8080/ingredients/all')
+        .then(response => response.json())
+        .then(json => json.forEach(ingredient => {
 
-    if (itemName.length > 0) {
-
-        if (document.getElementById(itemName) == null) {
-
-            itemsDiv.appendChild(await createItem(itemName));
-
-            const btn = document.getElementById('btn-' + itemName);
-            btn.addEventListener('click', () => {
-                const item = document.getElementById(itemName);
-                itemsDiv.removeChild(item);
-                itemExists.className = 'alert alert-warning d-none';
-            });
-
-            itemExists.className = 'alert alert-warning d-none';
-
-        } else {
-            itemExists.className = 'alert alert-warning mt-1 mb-0 py-2';
-        }
-        
-        item.value = '';
-    }
-}
-
-async function createItem(name) {
-    const groupDiv = document.createElement('div');
-    groupDiv.className= 'input-group mt-1';
-    groupDiv.id = name;
-
-    const textInput = document.createElement('input');
-    textInput.type = 'text';
-    textInput.name = 'item';
-    textInput.className = 'form-control bg-dark';
-    textInput.value = name;
-    textInput.disabled = true;
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.id = 'btn-' + name;
-    btn.className = 'input-group-text';
-
-    const removeIcon = document.createElement('i');
-    removeIcon.className = 'fa-solid fa-circle-minus';
-
-    btn.appendChild(removeIcon);
-
-    groupDiv.appendChild(textInput);
-    groupDiv.appendChild(btn);
-
-    return groupDiv;
+        }));
 }

@@ -36,6 +36,14 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
+                    <a id="ingredients-dropdown" th:href="@{/ingredients/all}" class="nav-link" role="button" data-bs-toggle="dropdown">Ingredients</a>
+                    <ul class="dropdown-menu p-0">
+                        <li><a th:href="@{/ingredients/add}" class="dropdown-item rounded-top-2">Add ingredient</a></li>
+                        <li><a href="#" class="dropdown-item">Find ingredients</a></li>
+                        <li><a th:href="@{/ingredients/all}" class="dropdown-item rounded-bottom-2">All ingredients</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
                     <a id="diets-dropdown" href="#" class="nav-link" role="button" data-bs-toggle="dropdown">Diets</a>
                     <ul class="dropdown-menu p-0">
                         <li><a href="#" class="dropdown-item rounded-top-2">Create diet</a></li>

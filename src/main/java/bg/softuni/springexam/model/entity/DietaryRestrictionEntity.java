@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "dietary_restriction")
-public class DietaryRestrictionsEntity extends BaseEntity {
+public class DietaryRestrictionEntity extends BaseEntity {
 
     @Column(name = "restriction")
     @Enumerated(EnumType.STRING)
@@ -15,7 +15,7 @@ public class DietaryRestrictionsEntity extends BaseEntity {
         return restriction;
     }
 
-    public DietaryRestrictionsEntity setRestriction(DietaryRestriction restriction) {
+    public DietaryRestrictionEntity setRestriction(DietaryRestriction restriction) {
         this.restriction = restriction;
         return this;
     }

@@ -12,14 +12,20 @@ public class RecipeEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "ingredients")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "recipes_ingredients",
             joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+            inverseJoinColumns = @JoinColumn(name = "recipe_ingredient_id")
     )
-    private List<IngredientEntity> ingredients;
+    private List<RecipeIngredientEntity> ingredients;
+
+    @Column(name = "image-url")
+    private String imageUrl;
 
     @ManyToOne
     private UserEntity author;
@@ -36,11 +42,11 @@ public class RecipeEntity extends BaseEntity {
         return this;
     }
 
-    public List<IngredientEntity> getIngredients() {
+    public List<RecipeIngredientEntity> getIngredients() {
         return ingredients;
     }
 
-    public RecipeEntity setIngredients(List<IngredientEntity> ingredients) {
+    public RecipeEntity setIngredients(List<RecipeIngredientEntity> ingredients) {
         this.ingredients = ingredients;
         return this;
     }
@@ -60,6 +66,24 @@ public class RecipeEntity extends BaseEntity {
 
     public RecipeEntity setCreated(LocalDateTime created) {
         this.created = created;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public RecipeEntity setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public RecipeEntity setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 }

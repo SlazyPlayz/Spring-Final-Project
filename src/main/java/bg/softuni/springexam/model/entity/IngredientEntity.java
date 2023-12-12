@@ -3,13 +3,15 @@ package bg.softuni.springexam.model.entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "ingredients")
 public class IngredientEntity extends BaseEntity {
 
-    @Column(name = "ingredient")
-    private String ingredient;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "dietary_restrictions")
     @ManyToMany(fetch = FetchType.EAGER)
@@ -18,22 +20,23 @@ public class IngredientEntity extends BaseEntity {
             joinColumns = @JoinColumn(name = "ingredient_id"),
             inverseJoinColumns = @JoinColumn(name = "restriction_id")
     )
-    private List<DietaryRestrictionsEntity> restrictions;
+    private Set<DietaryRestrictionEntity> restrictions;
 
-    public String getIngredient() {
-        return ingredient;
+    public String getName() {
+        return name;
     }
 
-    public IngredientEntity setIngredient(String ingredient) {
-        this.ingredient = ingredient;
+    public IngredientEntity setName(String name) {
+        this.setId(UUID.randomUUID());
+        this.name = name;
         return this;
     }
 
-    public List<DietaryRestrictionsEntity> getRestrictions() {
+    public Set<DietaryRestrictionEntity> getRestrictions() {
         return restrictions;
     }
 
-    public IngredientEntity setRestrictions(List<DietaryRestrictionsEntity> restrictions) {
+    public IngredientEntity setRestrictions(Set<DietaryRestrictionEntity> restrictions) {
         this.restrictions = restrictions;
         return this;
     }

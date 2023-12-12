@@ -1,5 +1,6 @@
 package bg.softuni.springexam.model.entity;
 
+import bg.softuni.springexam.model.enums.Role;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -45,6 +46,8 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity() {
         roles = new ArrayList<>();
+        roles.add(new RoleEntity().setRole(Role.USER));
+        setBanned(false);
     }
 
     public String getUsername() {

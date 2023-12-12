@@ -16,14 +16,14 @@
     <div class="d-flex align-items-center min-vh-100 justify-content-center">
         <div class="border border-1 px-5 py-4 rounded-1 add-recipe">
             <h2 class="text-center mb-4">Create a recipe</h2>
-            <form method="POST" action="/recipes/add">
+            <form th:method="POST" th:action="@{/recipes/add}" th:object="${recipeAddBindingModel}">
                 <div class="mb-4">
                         <label for="name" class="form-label">Name: </label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
+                        <input type="text" th:name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
                 </div>
                 <div class="mb-4">
                     <label for="description" class="form-label">Description: </label>
-                    <textarea class="form-control"></textarea>
+                    <textarea th:name="description" id="description" class="form-control"></textarea>
                 </div>
                 <div class="mb-4 col" id="items">
                     <label for="item" class="form-label">Add ingredient: </label>
@@ -36,12 +36,19 @@
                     <div id="item-exists-alert" class="alert alert-warning d-none">
                         This ingredient has already been added!
                     </div>
+                    <div class="input-group ingredient mt-2" th:each="ingredient : ${ingredients}" th:field="*{ingredients}" th:id="|item-${ingredient.name}|">
+                        <input type="text" th:name="|item-${ingredient.name}|" th:value="*{name}" th:placeholder="${ingredient.name}" class="form-control bg-dark" disabled>
+                        <input type="number" class="form-control bg-dark ingredient-amount" style="max-width: 25%" th:name="|amount-${ingredient.name}|">
+                        <button type="button" class="input-group-text">
+                            <i class="fa-solid fa-circle-minus"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Add recipe</button>
             </form>
         </div>
     </div>
-    <script src="/js/add-recipe.js"></script>
+    <script th:src="@{/js/add-recipe.js}"></script>
     <script src="/js/jquery.js"></script>
 </body>
 </html>

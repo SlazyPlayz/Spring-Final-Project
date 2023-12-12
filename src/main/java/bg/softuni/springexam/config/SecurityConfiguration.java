@@ -1,5 +1,6 @@
 package bg.softuni.springexam.config;
 
+import bg.softuni.springexam.model.enums.Role;
 import bg.softuni.springexam.repository.UserRepository;
 import bg.softuni.springexam.service.impl.DieterUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,9 +31,10 @@ public class SecurityConfiguration {
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Allow anyone to see the home page, registration page and login form
                                 .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
-                                .requestMatchers("/offers/all").permitAll()
+                                .requestMatchers("/recipes/all", "/recipes/add").permitAll()
+                                .requestMatchers("/diets/all", "/diets/add").permitAll()
                                 .requestMatchers("/error").permitAll()
-//                                .requestMatchers("/brands").hasRole(UserRoleEnum.ADMIN.name())
+//                                .requestMatchers("/brands").hasRole(Role.ADMIN.name())
 //                                TODO: Add fix permissions
                                 // All other requests are authenticated
                                 .anyRequest().authenticated()
@@ -58,12 +60,12 @@ public class SecurityConfiguration {
                                     // invalidate the HTTP session
                                     .invalidateHttpSession(true);
                         }
-//                ).rememberMe(
-//                        rememberMe -> {
-//                            rememberMe.key(rememberMeKey)
-//                                    .rememberMeParameter("remember-me")
-//                                    .rememberMeCookieName("remember-me");
-//                        }
+                ).rememberMe(
+                        rememberMe -> {
+                            rememberMe.key(rememberMeKey)
+                                    .rememberMeParameter("remember-me")
+                                    .rememberMeCookieName("remember-me");
+                        }
                 )
                 .build();
     }
