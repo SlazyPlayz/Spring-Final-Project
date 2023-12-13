@@ -21,13 +21,13 @@
 //     }   
 // })
 
-let items = new Map();
+let items = document.getElementsByClassName('ingredient');
 
 const addItemBtn = document.getElementById('add-item');
 addItemBtn.addEventListener('click', addItem);
 
-const submitBtn = document.getElementById('btn-submit');
-submitBtn.addEventListener('click',  addIngredient)
+// const submitBtn = document.getElementById('btn-submit');
+// submitBtn.addEventListener('click',  addIngredient)
 
 function addItem() {
 
@@ -41,7 +41,7 @@ function addItem() {
 
         if (document.getElementById(itemName) != null) {
 
-            const currentItem = document.getElementById(itemName);
+            const currentItem = items.namedItem();
 
             if (currentItem.hidden) {
                 currentItem.removeAttribute('hidden');
@@ -75,24 +75,24 @@ function addItem() {
     }
 }
 
-function addIngredient(event) {
-
-    if (event) {
-        event.preventDefault();
-    }
-
-    const name = document.getElementById('name');
-    const description = document.getElementById('description');
-
-    const httpHeaders = {
-        method: 'POST',
-        body: JSON.stringify({ name, description, items })
-    };
-
-    fetch("https://localhost:8080/recipes/add", httpHeaders)
-        .catch(handleError);
-}
-
-function handleError(err) {
-    console.log(err);
-}
+// function addIngredient(event) {
+//
+//     if (event) {
+//         event.preventDefault();
+//     }
+//
+//     const name = document.getElementById('name');
+//     const description = document.getElementById('description');
+//
+//     const httpHeaders = {
+//         method: 'POST',
+//         body: JSON.stringify({ name, description, items })
+//     };
+//
+//     fetch("https://localhost:8080/recipes/add", httpHeaders)
+//         .catch(handleError);
+// }
+//
+// function handleError(err) {
+//     console.log(err);
+// }

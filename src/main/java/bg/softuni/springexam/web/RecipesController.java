@@ -3,8 +3,6 @@ package bg.softuni.springexam.web;
 import bg.softuni.springexam.model.dto.IngredientDTO;
 import bg.softuni.springexam.model.dto.RecipeAddBindingModel;
 import bg.softuni.springexam.model.dto.RecipeDTO;
-import bg.softuni.springexam.model.dto.RecipeIngredientDTO;
-import bg.softuni.springexam.model.entity.RecipeEntity;
 import bg.softuni.springexam.service.IngredientService;
 import bg.softuni.springexam.service.RecipeService;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -21,12 +18,10 @@ public class RecipesController {
 
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
-    private RecipeAddBindingModel recipeAddBindingModel;
 
     public RecipesController(RecipeService recipeService, IngredientService ingredientService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
-        recipeAddBindingModel = RecipeAddBindingModel.empty();
     }
 
     @GetMapping("/get")
@@ -42,24 +37,23 @@ public class RecipesController {
     @GetMapping("/add")
     public ModelAndView add() {
         ModelAndView modelAndView = new ModelAndView("/recipe/add-recipe");
-        modelAndView.addObject("recipeAddBindingModel", recipeAddBindingModel);
-        modelAndView.addObject("ingredientDTO", RecipeIngredientDTO.empty());
-        modelAndView.addObject("ingredients", ingredientService.allIngredients());
+        List<IngredientDTO> ingredients = ingredientService.allIngredients();
+        modelAndView.addObject("recipeAddBindingModel", RecipeAddBindingModel.empty(ingredients));
+        modelAndView.addObject("aal_ingredients", ingredients);
+
+        //TODO: Make recipe input as [name](amount); [name](amount); [name](amount)...
 
         return modelAndView;
     }
 
     @PostMapping("/add")
-    public ModelAndView addRecipe() {
+    public ModelAndView addRecipe(RecipeAddBindingModel recipeAddBindingModel) {
+
+        System.out.println("I got here");
 
         recipeService.addRecipe(recipeAddBindingModel);
 
         return new ModelAndView("index");
-    }
-
-    @PostMapping("/recipes/add-ingredient")
-    public void addIngredient(RecipeIngredientDTO ingredient) {
-        recipeAddBindingModel.addIngredient(ingredient);
     }
 
     @GetMapping("/get/{id}")

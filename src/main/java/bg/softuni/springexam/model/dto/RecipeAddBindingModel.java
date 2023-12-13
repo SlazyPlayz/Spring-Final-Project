@@ -6,18 +6,28 @@ public record RecipeAddBindingModel(
         String name,
 
         String description,
+        String item,
+        String amount,
 
-        List<RecipeIngredientDTO> ingredients,
+        List<RecipeIngredientDTO> ingredients
 
-        String imageUrl) {
+//        String imageUrl
+)
+{
 
 
-    public static RecipeAddBindingModel empty() {
-        return new RecipeAddBindingModel(null, null, new ArrayList<>(), null);
+    public static RecipeAddBindingModel empty(List<IngredientDTO> ingredientNames) {
+        RecipeIngredientDTO[] ingredients = new RecipeIngredientDTO[ingredientNames.size()];
+
+        for (int i = 0; i < ingredients.length; i++) {
+            ingredients[i] = mapToRecipeIngredient(ingredientNames.get(i));
+        }
+
+        return new RecipeAddBindingModel("", "", "", "", Arrays.stream(ingredients).toList());
     }
 
-    public RecipeAddBindingModel addIngredient(RecipeIngredientDTO ingredientDTO) {
-        ingredients.add(ingredientDTO);
-        return this;
+    private static RecipeIngredientDTO mapToRecipeIngredient(IngredientDTO ingredientDTO) {
+        return new RecipeIngredientDTO(ingredientDTO.name(), 0);
     }
+
 }

@@ -35,6 +35,9 @@ public class RecipeEntity extends BaseEntity {
     @Column(name = "created")
     private LocalDateTime created;
 
+    public RecipeEntity() {
+    }
+
     public String getName() {
         return name;
     }

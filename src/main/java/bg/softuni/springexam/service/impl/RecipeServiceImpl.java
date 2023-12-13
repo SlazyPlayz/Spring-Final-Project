@@ -5,6 +5,7 @@ import bg.softuni.springexam.exception.RecipeNotFoundException;
 import bg.softuni.springexam.model.dto.IngredientDTO;
 import bg.softuni.springexam.model.dto.RecipeAddBindingModel;
 import bg.softuni.springexam.model.dto.RecipeDTO;
+import bg.softuni.springexam.model.dto.RecipeIngredientDTO;
 import bg.softuni.springexam.model.entity.IngredientEntity;
 import bg.softuni.springexam.model.entity.RecipeEntity;
 import bg.softuni.springexam.repository.IngredientRepository;
@@ -44,18 +45,18 @@ public class RecipeServiceImpl implements RecipeService {
     public void addRecipe(RecipeAddBindingModel recipeAddBindingModel) {
 
         Map<IngredientEntity, Integer> ingredients = new HashMap<>();
-        recipeAddBindingModel.ingredients().forEach(ingredient -> {
+        for (RecipeIngredientDTO ingredient : recipeAddBindingModel.ingredients()) {
             ingredients.put(
-                    ingredientRepository.findByName(ingredient.name())
-                            .orElseThrow(() -> new IngredientNotFoundException(ingredient.name())),
-                    ingredient.amount());
-        });
+                    ingredientRepository.findByName(ingredient.getName()).orElseThrow(() ->
+                            new IngredientNotFoundException(ingredient.getName())),
+                    ingredient.getAmount());
+        }
 
         RecipeEntity recipe = new RecipeEntity()
                 .setName(recipeAddBindingModel.name())
                 .setDescription(recipeAddBindingModel.description())
                 .setIngredients(ingredients)
-                .setImageUrl(recipeAddBindingModel.imageUrl())
+//                .setImageUrl(recipeAddBindingModel.imageUrl())
                 .setAuthor(userService.loggedUser())
                 .setCreated(LocalDateTime.now());
 

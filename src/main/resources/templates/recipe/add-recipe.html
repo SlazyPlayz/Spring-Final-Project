@@ -15,11 +15,8 @@
 <body>
     <div class="d-flex align-items-center min-vh-100 justify-content-center">
         <div class="border border-1 px-5 py-4 rounded-1 add-recipe">
+            <h2 class="text-center mb-4">Create a recipe</h2>
             <form th:method="POST" th:action="@{/recipes/add}" th:object="${recipeAddBindingModel}">
-                <div class="row mb-4">
-            <h2 class="text-center">Create a recipe</h2>
-            <button id="btn-submit" class="btn btn-primary">Add recipe</button>
-                </div>
                 <div class="mb-4">
                         <label for="name" class="form-label">Name: </label>
                         <input type="text" th:name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
@@ -28,16 +25,14 @@
                     <label for="description" class="form-label">Description: </label>
                     <textarea th:name="description" id="description" class="form-control"></textarea>
                 </div>
-            </form>
-            <form th:method="POST" th:action="@{/recipes/add-ingredient}" th:object="${ingredientDTO}">
                 <div class="mb-4 col" id="items">
                     <label for="item" class="form-label">Add ingredient: </label>
                     <div class="input-group">
-                            <input type="text" name="item" id="item" class="form-control" placeholder="Ingredient name">
-                            <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount" style="max-width: 25%">
-                            <button type="submit" id="add-item" class="input-group-text">
-                                <i class="fa-solid fa-circle-plus"></i>
-                            </button>
+                        <input type="text" name="item" id="item" class="form-control" placeholder="Ingredient name">
+                        <input type="number" name="amount" id="amount" class="form-control" placeholder="Amount" style="max-width: 25%">
+                        <button type="button" id="add-item" class="input-group-text">
+                            <i class="fa-solid fa-circle-plus"></i>
+                        </button>
                     </div>
                     <div id="item-exists-alert" class="alert alert-warning d-none">
                         This ingredient has already been added!
@@ -45,18 +40,20 @@
                     <div id="item-not-exist-alert" class="alert alert-warning d-none">
                         This ingredient does not exist!
                     </div>
-                    <div class="input-group mt-2" th:each="ingredient : ${ingredients}" th:id="${ingredient.name}" hidden>
-                        <input type="text" th:id="|item-${ingredient.name}|" class="form-control item" disabled th:placeholder="${ingredient.name}">
-                        <input type="number" th:id="|amount-${ingredient.name}|" class="form-control amount" style="max-width: 25%">
-                        <button type="button" th:id="|remove-${ingredient.name}|" class="input-group-text remove">
+
+                    <div class="input-group mt-2 ingredient" th:each="ingredient, status : ${recipeAddBindingModel.ingredients}">
+                        <input type="text" th:field="*{ingredients[__${status.index}__].name}" class="form-control item" th:placeholder="${ingredient.name}" required>
+                        <input type="number" th:field="*{ingredients[__${status.index}__].amount}" class="form-control amount" style="max-width: 25%" required>
+                        <button type="button" class="input-group-text remove" th:id="${'remove-' + status.index}">
                             <i class="fa-solid fa-circle-minus"></i>
                         </button>
                     </div>
                 </div>
+                <button id="btn-submit" class="btn btn-primary">Add recipe</button>
             </form>
         </div>
     </div>
-    <script src="/js/add-recipe.js"></script>
+<!--    <script src="/js/add-recipe.js"></script>-->
     <script src="/js/jquery.js"></script>
 </body>
 </html>
