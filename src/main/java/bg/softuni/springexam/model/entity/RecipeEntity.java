@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "recipes")
@@ -15,14 +16,15 @@ public class RecipeEntity extends BaseEntity {
     @Column(name = "description")
     private String description;
 
+    @ElementCollection
     @Column(name = "ingredients")
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "recipes_ingredients",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_ingredient_id")
-    )
-    private List<RecipeIngredientEntity> ingredients;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "recipes_ingredients",
+//            joinColumns = @JoinColumn(name = "recipe_id"),
+//            inverseJoinColumns = @JoinColumn(name = "recipe_ingredient_id")
+//    )
+    private Map<IngredientEntity, Integer> ingredients;
 
     @Column(name = "image-url")
     private String imageUrl;
@@ -42,11 +44,11 @@ public class RecipeEntity extends BaseEntity {
         return this;
     }
 
-    public List<RecipeIngredientEntity> getIngredients() {
+    public Map<IngredientEntity, Integer> getIngredients() {
         return ingredients;
     }
 
-    public RecipeEntity setIngredients(List<RecipeIngredientEntity> ingredients) {
+    public RecipeEntity setIngredients(Map<IngredientEntity, Integer> ingredients) {
         this.ingredients = ingredients;
         return this;
     }

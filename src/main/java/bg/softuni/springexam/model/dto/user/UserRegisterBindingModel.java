@@ -1,4 +1,4 @@
-package bg.softuni.springexam.model.dto;
+package bg.softuni.springexam.model.dto.user;
 
 import bg.softuni.springexam.validation.FieldMatch;
 import bg.softuni.springexam.validation.UniqueEmail;

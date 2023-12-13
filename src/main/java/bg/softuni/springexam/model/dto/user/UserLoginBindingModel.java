@@ -1,4 +1,4 @@
-package bg.softuni.springexam.model.dto;
+package bg.softuni.springexam.model.dto.user;
 
 import jakarta.validation.constraints.Size;
 
@@ -8,4 +8,5 @@ public record UserLoginBindingModel(
         String username,
 
         @Size(min = 8, message = "Password must be at least 8 characters long")
-        String password) {}
+        String password) {
+}

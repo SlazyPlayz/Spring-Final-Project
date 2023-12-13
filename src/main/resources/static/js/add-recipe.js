@@ -21,73 +21,78 @@
 //     }   
 // })
 
-// async function addItem() {
-//
-//     const addItemBtn = document.getElementById('add-item');
-//     addItemBtn.addEventListener('click', addItem);
-//
-//     const itemsDiv = document.getElementById('ingredients-list');
-//     const itemExists = document.getElementById('item-exists-alert');
-//
-//     const item = document.getElementById('item');
-//     let itemName = item.value;
-//
-//     if (itemName.length > 0) {
-//
-//         if (document.getElementById(itemName) == null) {
-//
-//             itemsDiv.appendChild(await createItem(itemName));
-//
-//             const btn = document.getElementById('btn-' + itemName);
-//             btn.addEventListener('click', () => {
-//                 const item = document.getElementById(itemName);
-//                 itemsDiv.removeChild(item);
-//                 itemExists.className = 'alert alert-warning d-none';
-//             });
-//
-//             itemExists.className = 'alert alert-warning d-none';
-//
-//         } else {
-//             itemExists.className = 'alert alert-warning mt-1 mb-0 py-2';
-//         }
-//
-//         item.value = '';
-//     }
-// }
-//
-// async function createItem(name) {
-//     const groupDiv = document.createElement('div');
-//     groupDiv.className= 'input-group mt-1';
-//     groupDiv.id = name;
-//
-//     const textInput = document.createElement('input');
-//     textInput.type = 'text';
-//     textInput.name = 'ingredient';
-//     textInput.className = 'form-control bg-dark';
-//     textInput.value = name;
-//     textInput.disabled = true;
-//     textInput.setAttribute("th:field", "${ingredients}")
-//
-//     const btn = document.createElement('button');
-//     btn.type = 'button';
-//     btn.id = 'btn-' + name;
-//     btn.className = 'input-group-text';
-//
-//     const removeIcon = document.createElement('i');
-//     removeIcon.className = 'fa-solid fa-circle-minus';
-//
-//     btn.appendChild(removeIcon);
-//
-//     groupDiv.appendChild(textInput);
-//     groupDiv.appendChild(btn);
-//
-//     return groupDiv;
-// }
+let items = new Map();
 
-function confirmIngredients() {
-    fetch('https://localhost:8080/ingredients/all')
-        .then(response => response.json())
-        .then(json => json.forEach(ingredient => {
+const addItemBtn = document.getElementById('add-item');
+addItemBtn.addEventListener('click', addItem);
 
-        }));
+const submitBtn = document.getElementById('btn-submit');
+submitBtn.addEventListener('click',  addIngredient)
+
+function addItem() {
+
+    const itemExists = document.getElementById('item-exists-alert');
+    const itemNotExist = document.getElementById('item-not-exist-alert');
+
+    const item = document.getElementById('item');
+    const itemName = item.value.toLowerCase();
+
+    if (itemName.length > 0) {
+
+        if (document.getElementById(itemName) != null) {
+
+            const currentItem = document.getElementById(itemName);
+
+            if (currentItem.hidden) {
+                currentItem.removeAttribute('hidden');
+
+                const currentName = document.getElementById('item-' + itemName);
+                const currentAmount = document.getElementById('amount-' + itemName);
+                currentAmount.value = document.getElementById('amount').value;
+
+                const btn = document.getElementById('remove-' + itemName);
+                btn.addEventListener('click', () => {
+                    document.getElementById(itemName).hidden = true;
+                    currentAmount.value = '';
+                    itemExists.className = 'alert alert-warning d-none';
+                });
+
+                items.set(currentName.value, currentAmount.value);
+
+                document.getElementById('amount').value = '';
+                item.value = '';
+                itemExists.className = 'alert alert-warning d-none';
+
+            } else {
+                itemExists.className = 'alert alert-warning mt-1 mb-0 py-2';
+                itemNotExist.className = 'alert alert-warning d-none';
+            }
+
+        } else {
+            itemNotExist.className = 'alert alert-warning mt-1 mb-0 py-2';
+            itemExists.className = 'alert alert-warning d-none';
+        }
+    }
+}
+
+function addIngredient(event) {
+
+    if (event) {
+        event.preventDefault();
+    }
+
+    const name = document.getElementById('name');
+    const description = document.getElementById('description');
+
+    const httpHeaders = {
+        method: 'POST',
+        body: JSON.stringify({ name, description, items })
+    };
+
+    fetch("https://localhost:8080/recipes/add", httpHeaders)
+        .catch(handleError);
+}
+
+function handleError(err) {
+    console.log(err);
 }

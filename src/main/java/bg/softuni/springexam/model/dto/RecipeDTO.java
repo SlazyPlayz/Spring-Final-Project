@@ -1,9 +1,7 @@
 package bg.softuni.springexam.model.dto;
 
-import bg.softuni.springexam.model.entity.RecipeIngredientEntity;
-
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Map;
 
 public record RecipeDTO (
 
@@ -11,7 +9,7 @@ public record RecipeDTO (
 
         String description,
 
-        List<RecipeIngredientEntity> ingredients,
+        Map<IngredientDTO, Integer> ingredients,
 
         String imageUrl,
 

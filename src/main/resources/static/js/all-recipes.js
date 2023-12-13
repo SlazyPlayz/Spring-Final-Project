@@ -2,7 +2,7 @@ function getAllRecipes() {
 
     const container = document.getElementById('recipes-container');
 
-    fetch('https://localhost:8080/recipes/all')
+    fetch('https://localhost:8080/recipes/get')
         .then(response => response.json())
         .then(json => json.forEach(recipe => {
 
@@ -50,21 +50,3 @@ function getAllRecipes() {
 
         }));
 }
-
-//            <div class="col-3">
-//                 <div class="border border-2 rounded-2 p-0">
-//                     <div class="border border-2 rounded-2 p-0 card border-0 justify-content-around">
-//                         <img src="recipe.jpg" class="img-fluid w-100 rounded-top-1">
-//                         <div class="card-body">
-//                             <div class="card-title">
-//                                 <h2>This is a title</h2>
-//                             </div>
-//                             <p class="card-text">
-//                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam alias praesentium nesciunt odit aliquid cupiditate culpa blanditiis dolore eveniet maxime aut deserunt, debitis soluta ea. Deleniti, eligendi pariatur, obcaecati delectus nam, deserunt esse ea suscipit eaque officia dicta cum ut consectetur ratione vel voluptatem corporis et quod. Quis, delectus exercitationem!
-//                             <div class="card-footer bg-dark border-0 px-0">
-//                                 <span class="badge bg-primary">A tag</span>
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>

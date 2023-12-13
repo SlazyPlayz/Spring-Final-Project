@@ -30,8 +30,8 @@ public class SecurityConfiguration {
                                 // All static resources which are situated in css, img, js are available for anyone
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Allow anyone to see the home page, registration page and login form
-                                .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").permitAll()
-                                .requestMatchers("/recipes/all", "/recipes/add").permitAll()
+                                .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").anonymous()
+                                .requestMatchers("/recipes/**","/recipes/all", "/recipes/add", "/recipes/get", "/recipes/get/**").permitAll()
                                 .requestMatchers("/diets/all", "/diets/add").permitAll()
                                 .requestMatchers("/error").permitAll()
 //                                .requestMatchers("/brands").hasRole(Role.ADMIN.name())

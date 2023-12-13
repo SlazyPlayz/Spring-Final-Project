@@ -1,6 +1,6 @@
 package bg.softuni.springexam.web;
 
-import bg.softuni.springexam.model.dto.UserRegisterBindingModel;
+import bg.softuni.springexam.model.dto.user.UserRegisterBindingModel;
 import bg.softuni.springexam.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

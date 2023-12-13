@@ -1,18 +1,23 @@
 package bg.softuni.springexam.model.dto;
 
-import java.util.Set;
+import java.util.*;
 
 public record RecipeAddBindingModel(
-
         String name,
 
         String description,
 
-        Set<RecipeIngredientDTO> ingredients,
+        List<RecipeIngredientDTO> ingredients,
 
         String imageUrl) {
 
+
     public static RecipeAddBindingModel empty() {
-        return new RecipeAddBindingModel(null, null, null, null);
+        return new RecipeAddBindingModel(null, null, new ArrayList<>(), null);
+    }
+
+    public RecipeAddBindingModel addIngredient(RecipeIngredientDTO ingredientDTO) {
+        ingredients.add(ingredientDTO);
+        return this;
     }
 }

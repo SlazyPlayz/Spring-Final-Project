@@ -1,7 +1,7 @@
 package bg.softuni.springexam.service.impl;
 
 import bg.softuni.springexam.exception.UserNotFoundException;
-import bg.softuni.springexam.model.dto.UserRegisterBindingModel;
+import bg.softuni.springexam.model.dto.user.UserRegisterBindingModel;
 import bg.softuni.springexam.model.entity.UserEntity;
 import bg.softuni.springexam.repository.UserRepository;
 import bg.softuni.springexam.service.UserService;
