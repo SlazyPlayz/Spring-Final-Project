@@ -45,13 +45,13 @@ public class RecipeServiceImpl implements RecipeService {
     public void addRecipe(RecipeAddBindingModel recipeAddBindingModel) {
 
         Map<IngredientEntity, Integer> ingredients = new HashMap<>();
-        List<String> ingredientsWithAmounts = Arrays.stream(recipeAddBindingModel.ingredients().split("\\); ")).toList();
+        RecipeIngredientDTO[] ingredientsWithAmounts = recipeAddBindingModel.getIngredients();
 
-        for (String ingredient : ingredientsWithAmounts) {
+        for (RecipeIngredientDTO ingredient : ingredientsWithAmounts) {
 
-            String[] values = ingredient.split("\\(");
-            String name = values[0];
-            int amount = Integer.parseInt(values[1]);
+//            String[] values = ingredient.split("\\(");
+            String name = ingredient.getName();
+            int amount = ingredient.getAmount();
 
             ingredients.put(
                     ingredientRepository.findByName(name).orElseThrow(() ->
@@ -60,8 +60,8 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         RecipeEntity recipe = new RecipeEntity()
-                .setName(recipeAddBindingModel.name())
-                .setDescription(recipeAddBindingModel.description())
+                .setName(recipeAddBindingModel.getName())
+                .setDescription(recipeAddBindingModel.getDescription())
                 .setIngredients(ingredients)
 //                .setImageUrl(recipeAddBindingModel.imageUrl())
                 .setAuthor(userService.loggedUser())

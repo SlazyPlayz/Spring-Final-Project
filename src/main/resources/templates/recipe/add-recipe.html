@@ -17,6 +17,7 @@
         <div class="border border-1 px-5 py-4 rounded-1 add-recipe">
             <h2 class="text-center mb-4">Create a recipe</h2>
             <form th:method="POST" th:action="@{/recipes/add}" th:object="${recipeAddBindingModel}">
+<!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
                 <div class="mb-4">
                         <label for="name" class="form-label">Name: </label>
                         <input type="text" th:name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
@@ -25,7 +26,7 @@
                     <label for="description" class="form-label">Description: </label>
                     <textarea th:name="description" id="description" class="form-control"></textarea>
                 </div>
-                <input type="hidden" id="added-ingredients" th:field="*{ingredients}">
+<!--                <input type="hidden" id="added-ingredients" th:field="*{ingredients}">-->
                 <div class="mb-4 col" id="items">
                     <label for="item" class="form-label">Add ingredient: </label>
                     <div class="input-group">
@@ -42,10 +43,10 @@
                         This ingredient does not exist!
                     </div>
 
-                    <div class="input-group mt-2 ingredient" th:each="ingredient : ${ingredientsList}" th:id="${ingredient.name}" hidden>
-                        <input type="text" class="form-control item" th:placeholder="${ingredient.name}" th:value="${ingredient.name}" required>
+                    <div class="input-group mt-2 ingredient" th:each="ingredient, status : ${recipeAddBindingModel.ingredients}" th:id="${ingredient.name}" hidden>
+                        <input type="text" class="form-control item" th:field="*{ingredients[__${status.index}__].name}" th:placeholder="${ingredient.name}" th:value="${ingredient.name}">
 <!--                        th:field="*{ingredients[__${status.index}__].name}"-->
-                        <input type="number" class="form-control amount" th:id="${'amount-' + ingredient.name}" style="max-width: 25%" required>
+                        <input type="number" class="form-control amount" th:field="*{ingredients[__${status.index}__].amount}" th:id="${'amount-' + ingredient.name}" style="max-width: 25%">
                         <button type="button" class="input-group-text remove" th:id="${'remove-' + ingredient.name}">
                             <i class="fa-solid fa-circle-minus"></i>
                         </button>

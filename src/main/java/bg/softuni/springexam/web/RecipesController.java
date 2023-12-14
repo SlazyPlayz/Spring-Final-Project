@@ -41,8 +41,6 @@ public class RecipesController {
         modelAndView.addObject("recipeAddBindingModel", RecipeAddBindingModel.empty(ingredients));
         modelAndView.addObject("ingredientsList", ingredients);
 
-        //TODO: Make recipe input as [name](amount); [name](amount); [name](amount)...
-
         return modelAndView;
     }
 

@@ -75,17 +75,17 @@ function addItem() {
             itemExists.className = 'alert alert-warning d-none';
         }
 
-        const ingredientsList = document.getElementById("added-ingredients");
-        ingredientsList.value = "";
-
-        items.forEach((name, amount) => {
-            ingredientsList.value += `${name}(${amount})`;
-            if (name !== Array.from(items.keys())[items.keys.length - 1]) {
-                ingredientsList.value+= '; ';
-            }
-        })
-
-        console.log(ingredientsList.value);
+        // const ingredientsList = document.getElementById("added-ingredients");
+        // ingredientsList.value = "";
+        //
+        // items.forEach((name, amount) => {
+        //     ingredientsList.value += `${name}(${amount})`;
+        //     if (name !== Array.from(items.keys())[items.keys.length - 1]) {
+        //         ingredientsList.value+= '; ';
+        //     }
+        // })
+        //
+        // console.log(ingredientsList.value);
     }
 }
 
