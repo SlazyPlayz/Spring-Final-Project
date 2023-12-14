@@ -47,9 +47,8 @@ public class RecipeServiceImpl implements RecipeService {
         Map<IngredientEntity, Integer> ingredients = new HashMap<>();
         RecipeIngredientDTO[] ingredientsWithAmounts = recipeAddBindingModel.getIngredients();
 
-        for (RecipeIngredientDTO ingredient : ingredientsWithAmounts) {
+        for (RecipeIngredientDTO ingredient : Arrays.stream(ingredientsWithAmounts).filter(x -> x.getAmount() > 0).toList()) {
 
-//            String[] values = ingredient.split("\\(");
             String name = ingredient.getName();
             int amount = ingredient.getAmount();
 

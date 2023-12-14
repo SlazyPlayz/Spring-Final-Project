@@ -26,7 +26,6 @@
                     <label for="description" class="form-label">Description: </label>
                     <textarea th:name="description" id="description" class="form-control"></textarea>
                 </div>
-<!--                <input type="hidden" id="added-ingredients" th:field="*{ingredients}">-->
                 <div class="mb-4 col" id="items">
                     <label for="item" class="form-label">Add ingredient: </label>
                     <div class="input-group">
@@ -45,7 +44,6 @@
 
                     <div class="input-group mt-2 ingredient" th:each="ingredient, status : ${recipeAddBindingModel.ingredients}" th:id="${ingredient.name}" hidden>
                         <input type="text" class="form-control item" th:field="*{ingredients[__${status.index}__].name}" th:placeholder="${ingredient.name}" th:value="${ingredient.name}">
-<!--                        th:field="*{ingredients[__${status.index}__].name}"-->
                         <input type="number" class="form-control amount" th:field="*{ingredients[__${status.index}__].amount}" th:id="${'amount-' + ingredient.name}" style="max-width: 25%">
                         <button type="button" class="input-group-text remove" th:id="${'remove-' + ingredient.name}">
                             <i class="fa-solid fa-circle-minus"></i>
