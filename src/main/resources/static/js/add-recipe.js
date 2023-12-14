@@ -21,7 +21,7 @@
 //     }   
 // })
 
-let items = document.getElementsByClassName('ingredient');
+let items = new Map();
 
 const addItemBtn = document.getElementById('add-item');
 addItemBtn.addEventListener('click', addItem);
@@ -41,23 +41,25 @@ function addItem() {
 
         if (document.getElementById(itemName) != null) {
 
-            const currentItem = items.namedItem();
+            const currentItem = document.getElementById(itemName);
 
             if (currentItem.hidden) {
                 currentItem.removeAttribute('hidden');
 
                 const currentName = document.getElementById('item-' + itemName);
                 const currentAmount = document.getElementById('amount-' + itemName);
-                currentAmount.value = document.getElementById('amount').value;
+                const amount = document.getElementById('amount');
+                currentAmount.value = amount.value;
+
+                items.set(itemName, amount.value);
 
                 const btn = document.getElementById('remove-' + itemName);
                 btn.addEventListener('click', () => {
                     document.getElementById(itemName).hidden = true;
                     currentAmount.value = '';
                     itemExists.className = 'alert alert-warning d-none';
+                    items.delete(itemName);
                 });
-
-                items.set(currentName.value, currentAmount.value);
 
                 document.getElementById('amount').value = '';
                 item.value = '';
@@ -72,6 +74,18 @@ function addItem() {
             itemNotExist.className = 'alert alert-warning mt-1 mb-0 py-2';
             itemExists.className = 'alert alert-warning d-none';
         }
+
+        const ingredientsList = document.getElementById("added-ingredients");
+        ingredientsList.value = "";
+
+        items.forEach((name, amount) => {
+            ingredientsList.value += `${name}(${amount})`;
+            if (name !== Array.from(items.keys())[items.keys.length - 1]) {
+                ingredientsList.value+= '; ';
+            }
+        })
+
+        console.log(ingredientsList.value);
     }
 }
 

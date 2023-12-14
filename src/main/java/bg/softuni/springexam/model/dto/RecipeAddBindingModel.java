@@ -9,7 +9,7 @@ public record RecipeAddBindingModel(
         String item,
         String amount,
 
-        List<RecipeIngredientDTO> ingredients
+        String ingredients
 
 //        String imageUrl
 )
@@ -17,13 +17,13 @@ public record RecipeAddBindingModel(
 
 
     public static RecipeAddBindingModel empty(List<IngredientDTO> ingredientNames) {
-        RecipeIngredientDTO[] ingredients = new RecipeIngredientDTO[ingredientNames.size()];
+//        RecipeIngredientDTO[] ingredients = new RecipeIngredientDTO[ingredientNames.size()];
+//
+//        for (int i = 0; i < ingredients.length; i++) {
+//            ingredients[i] = mapToRecipeIngredient(ingredientNames.get(i));
+//        }
 
-        for (int i = 0; i < ingredients.length; i++) {
-            ingredients[i] = mapToRecipeIngredient(ingredientNames.get(i));
-        }
-
-        return new RecipeAddBindingModel("", "", "", "", Arrays.stream(ingredients).toList());
+        return new RecipeAddBindingModel("", "", "", "", "");
     }
 
     private static RecipeIngredientDTO mapToRecipeIngredient(IngredientDTO ingredientDTO) {

@@ -39,7 +39,7 @@ public class RecipesController {
         ModelAndView modelAndView = new ModelAndView("/recipe/add-recipe");
         List<IngredientDTO> ingredients = ingredientService.allIngredients();
         modelAndView.addObject("recipeAddBindingModel", RecipeAddBindingModel.empty(ingredients));
-        modelAndView.addObject("aal_ingredients", ingredients);
+        modelAndView.addObject("ingredientsList", ingredients);
 
         //TODO: Make recipe input as [name](amount); [name](amount); [name](amount)...
 

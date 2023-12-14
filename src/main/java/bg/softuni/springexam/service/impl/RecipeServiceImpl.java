@@ -45,11 +45,18 @@ public class RecipeServiceImpl implements RecipeService {
     public void addRecipe(RecipeAddBindingModel recipeAddBindingModel) {
 
         Map<IngredientEntity, Integer> ingredients = new HashMap<>();
-        for (RecipeIngredientDTO ingredient : recipeAddBindingModel.ingredients()) {
+        List<String> ingredientsWithAmounts = Arrays.stream(recipeAddBindingModel.ingredients().split("\\); ")).toList();
+
+        for (String ingredient : ingredientsWithAmounts) {
+
+            String[] values = ingredient.split("\\(");
+            String name = values[0];
+            int amount = Integer.parseInt(values[1]);
+
             ingredients.put(
-                    ingredientRepository.findByName(ingredient.getName()).orElseThrow(() ->
-                            new IngredientNotFoundException(ingredient.getName())),
-                    ingredient.getAmount());
+                    ingredientRepository.findByName(name).orElseThrow(() ->
+                            new IngredientNotFoundException(name)),
+                    amount);
         }
 
         RecipeEntity recipe = new RecipeEntity()
