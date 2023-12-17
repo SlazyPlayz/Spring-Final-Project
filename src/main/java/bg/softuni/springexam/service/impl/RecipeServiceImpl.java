@@ -2,14 +2,13 @@ package bg.softuni.springexam.service.impl;
 
 import bg.softuni.springexam.exception.IngredientNotFoundException;
 import bg.softuni.springexam.exception.RecipeNotFoundException;
-import bg.softuni.springexam.model.dto.IngredientDTO;
-import bg.softuni.springexam.model.dto.RecipeAddBindingModel;
-import bg.softuni.springexam.model.dto.RecipeDTO;
-import bg.softuni.springexam.model.dto.RecipeIngredientDTO;
+import bg.softuni.springexam.model.dto.ingredient.IngredientDTO;
+import bg.softuni.springexam.model.dto.recipe.RecipeAddBindingModel;
+import bg.softuni.springexam.model.dto.recipe.RecipeDTO;
+import bg.softuni.springexam.model.dto.recipe.RecipeIngredientDTO;
 import bg.softuni.springexam.model.entity.IngredientEntity;
 import bg.softuni.springexam.model.entity.RecipeEntity;
 import bg.softuni.springexam.repository.IngredientRepository;
-import bg.softuni.springexam.repository.RecipeIngredientRepository;
 import bg.softuni.springexam.repository.RecipeRepository;
 import bg.softuni.springexam.service.RecipeService;
 
@@ -27,8 +26,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final IngredientRepository ingredientRepository;
 
     public RecipeServiceImpl(RecipeRepository recipeRepository, UserService userService,
-                             IngredientRepository ingredientRepository,
-                             RecipeIngredientRepository recipeIngredientRepository) {
+                             IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
         this.userService = userService;
         this.ingredientRepository = ingredientRepository;
@@ -44,13 +42,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void addRecipe(RecipeAddBindingModel recipeAddBindingModel) {
 
-        Map<IngredientEntity, Integer> ingredients = new HashMap<>();
+        Map<IngredientEntity, Double> ingredients = new HashMap<>();
         RecipeIngredientDTO[] ingredientsWithAmounts = recipeAddBindingModel.getIngredients();
 
         for (RecipeIngredientDTO ingredient : Arrays.stream(ingredientsWithAmounts).filter(x -> x.getAmount() > 0).toList()) {
 
             String name = ingredient.getName();
-            int amount = ingredient.getAmount();
+            Double amount = ingredient.getAmount();
 
             ingredients.put(
                     ingredientRepository.findByName(name).orElseThrow(() ->
@@ -76,19 +74,20 @@ public class RecipeServiceImpl implements RecipeService {
 
     private RecipeDTO mapToDTO(RecipeEntity recipe) {
 
-        Map<IngredientDTO, Integer> ingredients = new HashMap<>();
+        Map<IngredientDTO, Double> ingredients = new HashMap<>();
         recipe.getIngredients().forEach((ingredient, amount) -> {
             ingredients.put(mapIngredientEntityToDTO(ingredient), amount);
         });
 
-        return new RecipeDTO(recipe.getName(), recipe.getDescription(), ingredients, recipe.getImageUrl(), recipe.getAuthor().getFirstName() + " " + recipe.getAuthor().getLastName(), recipe.getCreated());
+        return new RecipeDTO(recipe.getName(), recipe.getDescription(), ingredients, recipe.getAuthor().getFirstName() + " " + recipe.getAuthor().getLastName(), recipe.getCreated());
     }
 
     private IngredientEntity mapIngredientDTOToEntity(IngredientDTO ingredient) {
-        return ingredientRepository.findByName(ingredient.name()).orElseThrow(() -> new IngredientNotFoundException(ingredient.name()));
+        return ingredientRepository.findByName(ingredient.getName()).orElseThrow(() -> new IngredientNotFoundException(ingredient.getName()));
     }
 
-    private IngredientDTO mapIngredientEntityToDTO(IngredientEntity ingredient) {
-        return new IngredientDTO(ingredient.getName(), ingredient.getRestrictions());
+    @Override
+    public IngredientDTO mapIngredientEntityToDTO(IngredientEntity ingredient) {
+        return new IngredientDTO().setName(ingredient.getName()).setDietaryRestrictions(ingredient.getRestrictions());
     }
 }

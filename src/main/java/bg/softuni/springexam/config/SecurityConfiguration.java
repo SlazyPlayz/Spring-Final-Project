@@ -27,14 +27,15 @@ public class SecurityConfiguration {
         return httpSecurity.authorizeHttpRequests(
                         // Define which URLs are visible by which users
                         authorizeRequests -> authorizeRequests
-                                // All static resources which are situated in css, img, js are available for anyone
+                                // All static resources which are situated in css, images, js are available for anyone
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 // Allow anyone to see the home page, registration page and login form
-                                .requestMatchers("/", "/users/login", "/users/register", "/users/login-error").anonymous()
-                                .requestMatchers("/recipes/**","/recipes/all", "/recipes/add", "/recipes/get", "/recipes/get/**").permitAll()
-                                .requestMatchers("/diets/all", "/diets/add").permitAll()
+                                .requestMatchers("/").permitAll()
+                                .requestMatchers("/users/login", "/users/register", "/users/login-error").permitAll()
+                                .requestMatchers("/recipes","/recipes/all", "/recipes/add", "/recipes/get", "/recipes/get/**").permitAll()
+                                .requestMatchers("/diets","/diets/all", "/diets/add", "/diets/get", "/diets/get/**").permitAll()
                                 .requestMatchers("/error").permitAll()
-//                                .requestMatchers("/brands").hasRole(Role.ADMIN.name())
+                                .requestMatchers("/users").hasRole(Role.ADMIN.name())
 //                                TODO: Add fix permissions
                                 // All other requests are authenticated
                                 .anyRequest().authenticated()

@@ -1,15 +1,13 @@
-package bg.softuni.springexam.model.dto;
-
-import java.util.Objects;
+package bg.softuni.springexam.model.dto.recipe;
 
 public final class RecipeIngredientDTO {
     private String name;
-    private int amount;
+    private Double amount;
 
 
     public RecipeIngredientDTO() {
         this.name = "";
-        this.amount = 0;
+        this.amount = 0.0;
     }
 
 //    public static RecipeIngredientDTO empty() {
@@ -17,7 +15,7 @@ public final class RecipeIngredientDTO {
 //    }
 
 
-    public RecipeIngredientDTO(String name, int amount) {
+    public RecipeIngredientDTO(String name, Double amount) {
         this.name = name;
         this.amount = amount;
     }
@@ -31,11 +29,11 @@ public final class RecipeIngredientDTO {
         return this;
     }
 
-    public int getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public RecipeIngredientDTO setAmount(int amount) {
+    public RecipeIngredientDTO setAmount(Double amount) {
         this.amount = amount;
         return this;
     }

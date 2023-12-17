@@ -16,27 +16,25 @@
     <div class="d-flex align-items-center min-vh-100 justify-content-center">
         <div class="border border-1 px-5 py-4 rounded-1 add-new-item">
             <h2 class="text-center mb-4">Create a recipe</h2>
-            <form th:method="POST" th:action="@{/diets/add}" th:object="${dietAddBindingModel}">
-<!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+            <form th:method="POST" th:action="@{/ingredients/add}" th:object="${ingredientAddBindingModel}">
                 <div class="mb-4">
                         <label for="name" class="form-label">Name: </label>
-                        <input type="text" th:name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
+                        <input type="text" th:field="*{name}" name="name" id="name" class="form-control" placeholder="Enter the name of the dish/recipe here">
                 </div>
                 <div class="mb-4">
-                    <label for="description" class="form-label">Description: </label>
-                    <textarea th:name="description" id="description" class="form-control"></textarea>
+                    <label for="dietary-restrictions">Dietary restrictions: </label>
+                    <input id="dietary-restrictions" th:field="*{restrictions}" th:each="restriction : ${dietaryRestrictions}"
+                    type="checkbox" name="dietary-restrictions" th:value="${restriction.name()}" th:text="${#strings.toLowerCase(restriction.name())}">
                 </div>
-                <div class="mb-4 col" id="items">
-                    <label for="type" class="form-label">Diet type: </label>
-                    <select class="form-select" id="type" th:field="*{type}">
-                        <option selected disabled value="">Choose type</option>
-                        <option th:each="type : ${dietTypes}" th:value="${type.name()}" th:text="${#strings.toLowerCase(type.name())}"></option>
-                    </select>
-                </div>
+<!--                <div class="mb-4 col" id="items">-->
+<!--                    <div id="item-exists-alert" class="alert alert-warning d-none">-->
+<!--                        This ingredient already exists!-->
+<!--                    </div>-->
+<!--                </div>-->
                 <button type="submit" class="btn btn-primary">Add recipe</button>
             </form>
         </div>
     </div>
-    <script th:src="@{/js/add-recipe.js}"></script>
+    <script th:src="@{/js/add-ingredient.js}"></script>
 </body>
 </html>

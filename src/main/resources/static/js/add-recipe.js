@@ -21,13 +21,8 @@
 //     }   
 // })
 
-let items = new Map();
-
 const addItemBtn = document.getElementById('add-item');
 addItemBtn.addEventListener('click', addItem);
-
-// const submitBtn = document.getElementById('btn-submit');
-// submitBtn.addEventListener('click',  addIngredient)
 
 function addItem() {
 
@@ -51,14 +46,11 @@ function addItem() {
                 const amount = document.getElementById('amount');
                 currentAmount.value = amount.value;
 
-                items.set(itemName, amount.value);
-
                 const btn = document.getElementById('remove-' + itemName);
                 btn.addEventListener('click', () => {
                     document.getElementById(itemName).hidden = true;
                     currentAmount.value = '';
                     itemExists.className = 'alert alert-warning d-none';
-                    items.delete(itemName);
                 });
 
                 document.getElementById('amount').value = '';
@@ -74,39 +66,5 @@ function addItem() {
             itemNotExist.className = 'alert alert-warning mt-1 mb-0 py-2';
             itemExists.className = 'alert alert-warning d-none';
         }
-
-        // const ingredientsList = document.getElementById("added-ingredients");
-        // ingredientsList.value = "";
-        //
-        // items.forEach((name, amount) => {
-        //     ingredientsList.value += `${name}(${amount})`;
-        //     if (name !== Array.from(items.keys())[items.keys.length - 1]) {
-        //         ingredientsList.value+= '; ';
-        //     }
-        // })
-        //
-        // console.log(ingredientsList.value);
     }
 }
-
-// function addIngredient(event) {
-//
-//     if (event) {
-//         event.preventDefault();
-//     }
-//
-//     const name = document.getElementById('name');
-//     const description = document.getElementById('description');
-//
-//     const httpHeaders = {
-//         method: 'POST',
-//         body: JSON.stringify({ name, description, items })
-//     };
-//
-//     fetch("https://localhost:8080/recipes/add", httpHeaders)
-//         .catch(handleError);
-// }
-//
-// function handleError(err) {
-//     console.log(err);
-// }

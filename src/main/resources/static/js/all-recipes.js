@@ -6,6 +6,8 @@ function getAllRecipes() {
         .then(response => response.json())
         .then(json => json.forEach(recipe => {
 
+            console.log(recipe);
+
             const column = document.createElement('div');
             column.className = 'col-3';
             container.appendChild(column);
@@ -19,7 +21,7 @@ function getAllRecipes() {
             border.appendChild(card);
 
             const img = document.createElement('img');
-            img.src = recipe.imageUrl;
+            img.src = recipe.imageUrl ? recipe.imageUrl : '/images/account.jpg';
             img.className = 'img-fluid w-100 rounded-top-1';
             card.appendChild(img);
 

@@ -33,6 +33,6 @@ public class UserController {
 
         userService.register(userRegisterBindingModel);
 
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/");
     }
 }

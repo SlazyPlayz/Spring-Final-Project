@@ -1,8 +1,8 @@
 package bg.softuni.springexam.web;
 
-import bg.softuni.springexam.model.dto.IngredientDTO;
-import bg.softuni.springexam.model.dto.RecipeAddBindingModel;
-import bg.softuni.springexam.model.dto.RecipeDTO;
+import bg.softuni.springexam.model.dto.ingredient.IngredientDTO;
+import bg.softuni.springexam.model.dto.recipe.RecipeAddBindingModel;
+import bg.softuni.springexam.model.dto.recipe.RecipeDTO;
 import bg.softuni.springexam.service.IngredientService;
 import bg.softuni.springexam.service.RecipeService;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/recipes")
 public class RecipesController {
 
@@ -31,7 +32,10 @@ public class RecipesController {
 
     @GetMapping("/all")
     public ModelAndView all() {
-        return new ModelAndView("/recipe/recipes-all");
+        ModelAndView modelAndView = new ModelAndView("/recipe/recipes-all");
+        modelAndView.addObject("recipes", recipeService.allRecipes());
+
+        return modelAndView;
     }
 
     @GetMapping("/add")
@@ -51,7 +55,7 @@ public class RecipesController {
 
         recipeService.addRecipe(recipeAddBindingModel);
 
-        return new ModelAndView("index");
+        return new ModelAndView("redirect:/");
     }
 
     @GetMapping("/get/{id}")

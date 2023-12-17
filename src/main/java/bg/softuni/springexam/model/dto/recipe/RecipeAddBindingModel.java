@@ -1,8 +1,10 @@
-package bg.softuni.springexam.model.dto;
+package bg.softuni.springexam.model.dto.recipe;
+
+import bg.softuni.springexam.model.dto.ingredient.IngredientDTO;
 
 import java.util.*;
 
-public final class RecipeAddBindingModel {
+public class RecipeAddBindingModel {
 
     private String name;
     private String description;
@@ -32,7 +34,7 @@ public final class RecipeAddBindingModel {
     }
 
     private static RecipeIngredientDTO mapToRecipeIngredient(IngredientDTO ingredientDTO) {
-        return new RecipeIngredientDTO(ingredientDTO.name(), 0);
+        return new RecipeIngredientDTO(ingredientDTO.getName(), 0.0);
     }
 
     public String getName() {

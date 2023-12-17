@@ -1,5 +1,6 @@
 package bg.softuni.springexam.init;
 
+import bg.softuni.springexam.model.entity.IngredientEntity;
 import bg.softuni.springexam.service.IngredientService;
 import bg.softuni.springexam.service.RecipeService;
 import org.springframework.boot.CommandLineRunner;
@@ -24,7 +25,7 @@ public class IngredientInit
 //        ingredientService.addIngredient(new IngredientEntity().setName("potato"));
 //        ingredientService.addIngredient(new IngredientEntity().setName("tomato"));
 //        ingredientService.addIngredient(new IngredientEntity().setName("apple"));
-//
+
 //        recipeService.addRecipe(new RecipeAddBindingModel(
 //                UUID.randomUUID(),
 //                "A name",

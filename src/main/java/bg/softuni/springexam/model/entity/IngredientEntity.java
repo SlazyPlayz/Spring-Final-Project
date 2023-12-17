@@ -13,14 +13,16 @@ public class IngredientEntity extends BaseEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "dietary_restrictions")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ingredients_restrictions",
-            joinColumns = @JoinColumn(name = "ingredient_id"),
-            inverseJoinColumns = @JoinColumn(name = "restriction_id")
+            joinColumns = { @JoinColumn(name = "ingredient_id") },
+            inverseJoinColumns = { @JoinColumn(name = "restriction_id") }
     )
     private Set<DietaryRestrictionEntity> restrictions;
+
+    @ManyToOne
+    private UserEntity author;
 
     public String getName() {
         return name;
@@ -38,6 +40,15 @@ public class IngredientEntity extends BaseEntity {
 
     public IngredientEntity setRestrictions(Set<DietaryRestrictionEntity> restrictions) {
         this.restrictions = restrictions;
+        return this;
+    }
+
+    public UserEntity getAuthor() {
+        return author;
+    }
+
+    public IngredientEntity setAuthor(UserEntity author) {
+        this.author = author;
         return this;
     }
 }

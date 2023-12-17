@@ -9,14 +9,14 @@ public class DietaryRestrictionEntity extends BaseEntity {
 
     @Column(name = "restriction")
     @Enumerated(EnumType.STRING)
-    private DietaryRestriction restriction;
+    private DietaryRestriction name;
 
-    public DietaryRestriction getRestriction() {
-        return restriction;
+    public DietaryRestriction getName() {
+        return name;
     }
 
-    public DietaryRestrictionEntity setRestriction(DietaryRestriction restriction) {
-        this.restriction = restriction;
+    public DietaryRestrictionEntity setName(DietaryRestriction name) {
+        this.name = name;
         return this;
     }
 }

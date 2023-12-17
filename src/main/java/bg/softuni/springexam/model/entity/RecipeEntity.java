@@ -3,6 +3,7 @@ package bg.softuni.springexam.model.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,14 +18,12 @@ public class RecipeEntity extends BaseEntity {
     private String description;
 
     @ElementCollection
-    @Column(name = "ingredients")
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "recipes_ingredients",
-//            joinColumns = @JoinColumn(name = "recipe_id"),
-//            inverseJoinColumns = @JoinColumn(name = "recipe_ingredient_id")
-//    )
-    private Map<IngredientEntity, Integer> ingredients;
+    @JoinTable(
+            name = "recipes_ingredients",
+            joinColumns = { @JoinColumn(name = "recipe_id") }
+    )
+    @MapKeyJoinColumn(name = "ingredient_id")
+    private Map<IngredientEntity, Double> ingredients;
 
     @Column(name = "image-url")
     private String imageUrl;
@@ -36,6 +35,7 @@ public class RecipeEntity extends BaseEntity {
     private LocalDateTime created;
 
     public RecipeEntity() {
+        ingredients = new HashMap<>();
     }
 
     public String getName() {
@@ -47,11 +47,11 @@ public class RecipeEntity extends BaseEntity {
         return this;
     }
 
-    public Map<IngredientEntity, Integer> getIngredients() {
+    public Map<IngredientEntity, Double> getIngredients() {
         return ingredients;
     }
 
-    public RecipeEntity setIngredients(Map<IngredientEntity, Integer> ingredients) {
+    public RecipeEntity setIngredients(Map<IngredientEntity, Double> ingredients) {
         this.ingredients = ingredients;
         return this;
     }

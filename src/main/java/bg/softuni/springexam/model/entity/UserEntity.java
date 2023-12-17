@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -30,10 +32,10 @@ public class UserEntity extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
-    private List<RoleEntity> roles;
+    private Set<RoleEntity> roles;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -45,9 +47,7 @@ public class UserEntity extends BaseEntity {
     private boolean isBanned;
 
     public UserEntity() {
-        roles = new ArrayList<>();
-        roles.add(new RoleEntity().setRole(Role.USER));
-        setBanned(false);
+        roles = new HashSet<>();
     }
 
     public String getUsername() {
@@ -95,11 +95,11 @@ public class UserEntity extends BaseEntity {
         return this;
     }
 
-    public List<RoleEntity> getRoles() {
+    public Set<RoleEntity> getRoles() {
         return roles;
     }
 
-    public UserEntity setRoles(List<RoleEntity> roles) {
+    public UserEntity setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
         return this;
     }
@@ -128,6 +128,17 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity setBanned(boolean banned) {
         isBanned = banned;
+        return this;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    public UserEntity setFullName(String fullName) {
+        String[] names = fullName.split("\\s+");
+        this.firstName = names[0];
+        this.lastName = names[1];
         return this;
     }
 }

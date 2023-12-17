@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="d-flex align-items-center min-vh-100 justify-content-center">
-        <div class="border border-1 px-5 py-4 rounded-1 add-recipe">
+        <div class="border border-1 px-5 py-4 rounded-1 add-new-item">
             <h2 class="text-center mb-4">Create a recipe</h2>
             <form th:method="POST" th:action="@{/recipes/add}" th:object="${recipeAddBindingModel}">
 <!--                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
@@ -54,6 +54,6 @@
             </form>
         </div>
     </div>
-    <script src="/js/add-recipe.js"></script>
+    <script th:src="@{/js/add-recipe.js}"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
-package bg.softuni.springexam.model.dto;
+package bg.softuni.springexam.model.dto.recipe;
+
+import bg.softuni.springexam.model.dto.ingredient.IngredientDTO;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -9,9 +11,9 @@ public record RecipeDTO (
 
         String description,
 
-        Map<IngredientDTO, Integer> ingredients,
+        Map<IngredientDTO, Double> ingredients,
 
-        String imageUrl,
+//        String imageUrl,
 
         String authorName,
 

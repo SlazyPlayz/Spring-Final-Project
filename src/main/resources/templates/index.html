@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" data-bs-theme="dark" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,6 +68,9 @@
         <p class="display-4">
             <i>Who</i> are we?
         </p>
+<!--        <p th:if="${#authentication.isAuthenticated()}">-->
+<!--            Welcome, <span th:text="${#authentication.getPrincipal().username}"></span>-->
+<!--        </p>-->
         <p>
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum cupiditate repellendus pariatur numquam tenetur nisi, deserunt eum ut asperiores eaque voluptas a vitae expedita dolorem quod quas? Nesciunt illum accusamus commodi ipsa quo perferendis recusandae, esse neque blanditiis velit qui id fugit, possimus, est facilis. Fugit autem corporis voluptatum et!
         </p>
