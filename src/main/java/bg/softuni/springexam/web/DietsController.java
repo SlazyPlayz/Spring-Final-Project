@@ -5,17 +5,20 @@ import bg.softuni.springexam.model.enums.DietType;
 import bg.softuni.springexam.service.DietService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.UUID;
+
 @Controller
 @RequestMapping("/diets")
-public class DietController {
+public class DietsController {
 
     private final DietService dietService;
 
-    public DietController(DietService dietService) {
+    public DietsController(DietService dietService) {
         this.dietService = dietService;
     }
 
@@ -33,6 +36,18 @@ public class DietController {
     public ModelAndView add(DietAddBindingModel dietAddBindingModel) {
         dietService.addDiet(dietAddBindingModel);
 
+        return new ModelAndView("redirect:/");
+    }
+
+    @PostMapping("/{dietId}/add-recipe/{recipeId}")
+    public ModelAndView addRecipe(@PathVariable UUID dietId, @PathVariable UUID recipeId) {
+
+        if (dietService.hasRecipe(dietId, recipeId)) {
+            dietService.addRecipeToDiet(dietId, recipeId);
+            return new ModelAndView("redirect:/");
+        }
+
+        dietService.removeRecipeFromDiet(dietId, recipeId);
         return new ModelAndView("redirect:/");
     }
 }

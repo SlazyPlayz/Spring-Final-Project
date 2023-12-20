@@ -1,13 +1,12 @@
 package bg.softuni.springexam.config;
 
 import bg.softuni.springexam.model.dto.diet.DietAddBindingModel;
+import bg.softuni.springexam.model.dto.diet.DietDTO;
 import bg.softuni.springexam.model.dto.ingredient.IngredientAddBindingModel;
 import bg.softuni.springexam.model.dto.ingredient.IngredientDTO;
+import bg.softuni.springexam.model.dto.recipe.RecipeDTO;
 import bg.softuni.springexam.model.dto.user.UserDTO;
-import bg.softuni.springexam.model.entity.DietEntity;
-import bg.softuni.springexam.model.entity.DietaryRestrictionEntity;
-import bg.softuni.springexam.model.entity.IngredientEntity;
-import bg.softuni.springexam.model.entity.UserEntity;
+import bg.softuni.springexam.model.entity.*;
 import bg.softuni.springexam.model.enums.DietaryRestriction;
 import bg.softuni.springexam.service.DietaryRestrictionService;
 import bg.softuni.springexam.service.UserService;
@@ -16,6 +15,7 @@ import org.modelmapper.Conditions;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.Provider;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Set;
@@ -49,6 +50,7 @@ public class AppConfig {
     @Bean
     public ModelMapper modelMapper() {
         final ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         final Provider<UserEntity> loggedUserProvider = request -> userService.loggedUser();
 
         Converter<UserEntity, UserDTO> loggedUserConverter =
@@ -75,27 +77,32 @@ public class AppConfig {
                                 entry.getValue()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-        modelMapper
-                .createTypeMap(UserEntity.class, UserDTO.class)
-                .addMappings(mapping -> mapping
-                        .map(UserEntity::getUsername, UserDTO::setUsername))
-                .addMappings(mapping -> mapping
-                        .map(UserEntity::getFullName, UserDTO::setFullName))
-                .addMappings(mapping -> mapping
-                        .map(UserEntity::getEmail, UserDTO::setEmail))
-                .addMappings(mapping -> mapping
-                        .map(UserEntity::getImageUrl, UserDTO::setImageUrl));
+        Converter<Set<RecipeEntity>, Set<RecipeDTO>> toRecipeDTOSet =
+                x -> (x.getSource() == null) ? null : x.getSource().stream()
+                        .map(recipeEntity -> modelMapper.map(recipeEntity, RecipeDTO.class))
+                        .collect(Collectors.toSet());
 
-        modelMapper
-                .createTypeMap(UserDTO.class, UserEntity.class)
-                .addMappings(mapping -> mapping
-                        .map(UserDTO::getUsername, UserEntity::setUsername))
-                .addMappings(mapping -> mapping
-                        .map(UserDTO::getFullName, UserEntity::setFullName))
-                .addMappings(mapping -> mapping
-                        .map(UserDTO::getEmail, UserEntity::setEmail))
-                .addMappings(mapping -> mapping
-                        .map(UserDTO::getImageUrl, UserEntity::setImageUrl));
+//        modelMapper
+//                .createTypeMap(UserEntity.class, UserDTO.class)
+//                .addMappings(mapping -> mapping
+//                        .map(UserEntity::getUsername, UserDTO::setUsername))
+//                .addMappings(mapping -> mapping
+//                        .map(UserEntity::getFullName, UserDTO::setFullName))
+//                .addMappings(mapping -> mapping
+//                        .map(UserEntity::getEmail, UserDTO::setEmail))
+//                .addMappings(mapping -> mapping
+//                        .map(UserEntity::getImageUrl, UserDTO::setImageUrl));
+//
+//        modelMapper
+//                .createTypeMap(UserDTO.class, UserEntity.class)
+//                .addMappings(mapping -> mapping
+//                        .map(UserDTO::getUsername, UserEntity::setUsername))
+//                .addMappings(mapping -> mapping
+//                        .map(UserDTO::getFullName, UserEntity::setFullName))
+//                .addMappings(mapping -> mapping
+//                        .map(UserDTO::getEmail, UserEntity::setEmail))
+//                .addMappings(mapping -> mapping
+//                        .map(UserDTO::getImageUrl, UserEntity::setImageUrl));
 
         modelMapper
                 .createTypeMap(IngredientEntity.class, IngredientDTO.class)
@@ -113,12 +120,12 @@ public class AppConfig {
                         .map(IngredientDTO::getName, IngredientEntity::setName))
                 .addMappings(mapping -> mapping
                         .using(toEntityMap)
-                        .map(IngredientDTO::getDietaryRestrictions, IngredientEntity::setRestrictions))
-                .addMappings(mapping -> mapping
-                        .when(Conditions.isNull())
-                        .with(loggedUserProvider)
-                        .using(loggedUserConverter)
-                        .map(userService.loggedUser(), IngredientEntity::setAuthor));
+                        .map(IngredientDTO::getDietaryRestrictions, IngredientEntity::setRestrictions));
+//                .addMappings(mapping -> mapping
+//                        .when(Conditions.isNull())
+//                        .with(loggedUserProvider)
+//                        .using(loggedUserConverter)
+//                        .map(userService.loggedUser(), IngredientEntity::setAuthor));
 //        TODO: Add mapping for author.
 
         modelMapper
@@ -128,12 +135,12 @@ public class AppConfig {
                 .addMappings(mapping -> mapping
                         .map(DietAddBindingModel::getDescription, DietEntity::setDescription))
                 .addMappings(mapping -> mapping
-                        .map(DietAddBindingModel::getType, DietEntity::setType))
-                .addMappings(mapping -> mapping
-                        .when(Conditions.isNull())
-                        .with(loggedUserProvider)
-                        .using(loggedUserConverter)
-                        .map(DietAddBindingModel::getAuthor, DietEntity::setAuthor));
+                        .map(DietAddBindingModel::getType, DietEntity::setType));
+//                .addMappings(mapping -> mapping
+//                        .when(Conditions.isNull())
+//                        .with(loggedUserProvider)
+//                        .using(loggedUserConverter)
+//                        .map(DietAddBindingModel::getAuthor, DietEntity::setAuthor));
 
         modelMapper
                 .createTypeMap(IngredientAddBindingModel.class, IngredientEntity.class)
@@ -141,12 +148,28 @@ public class AppConfig {
                         .map(IngredientAddBindingModel::getName, IngredientEntity::setName))
                 .addMappings(mapping -> mapping
                         .using(toEntitySet)
-                        .map(IngredientAddBindingModel::getRestrictions, IngredientEntity::setRestrictions))
+                        .map(IngredientAddBindingModel::getRestrictions, IngredientEntity::setRestrictions));
+//                .addMappings(mapping -> mapping
+//                        .when(Conditions.isNull())
+//                        .with(loggedUserProvider)
+//                        .using(loggedUserConverter)
+//                        .map(IngredientAddBindingModel::getAuthor, IngredientEntity::setAuthor));
+
+        modelMapper
+                .createTypeMap(DietEntity.class, DietDTO.class)
                 .addMappings(mapping -> mapping
-                        .when(Conditions.isNull())
-                        .with(loggedUserProvider)
-                        .using(loggedUserConverter)
-                        .map(IngredientAddBindingModel::getAuthor, IngredientEntity::setAuthor));
+                        .map(DietEntity::getName, DietDTO::setName))
+                .addMappings(mapping -> mapping
+                        .map(DietEntity::getDescription, DietDTO::setDescription))
+                .addMappings(mapping -> mapping
+                        .map(DietEntity::getCreated, DietDTO::setCreated))
+                .addMappings(mapping -> mapping
+                        .map(x -> x.getAuthor().getFullName(), DietDTO::setAuthorName))
+                .addMappings(mapping -> mapping
+                        .using(toRecipeDTOSet)
+                        .map(DietEntity::getRecipes, DietDTO::setRecipes))
+                .addMappings(mapping -> mapping
+                        .map(DietEntity::getId, DietDTO::setId));
 
         return modelMapper;
     }

@@ -28,7 +28,6 @@ public class UserEntity extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "role")
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -40,6 +39,14 @@ public class UserEntity extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_recipes",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "recipe_id") }
+    )
+    private List<RecipeEntity> favouriteRecipes;
+
     @Column(name = "created")
     private LocalDateTime created;
 
@@ -48,6 +55,7 @@ public class UserEntity extends BaseEntity {
 
     public UserEntity() {
         roles = new HashSet<>();
+        favouriteRecipes = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -139,6 +147,25 @@ public class UserEntity extends BaseEntity {
         String[] names = fullName.split("\\s+");
         this.firstName = names[0];
         this.lastName = names[1];
+        return this;
+    }
+
+    public List<RecipeEntity> getFavouriteRecipes() {
+        return favouriteRecipes;
+    }
+
+    public UserEntity setFavouriteRecipes(List<RecipeEntity> favouriteRecipes) {
+        this.favouriteRecipes = favouriteRecipes;
+        return this;
+    }
+
+    public UserEntity addFavouriteRecipe(RecipeEntity recipe) {
+        this.favouriteRecipes.add(recipe);
+        return this;
+    }
+
+    public UserEntity removeFavouriteRecipe(RecipeEntity recipe) {
+        this.favouriteRecipes.remove(recipe);
         return this;
     }
 }

@@ -16,8 +16,10 @@ public class DietTypeInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (DietType dietType : DietType.values()) {
-            dietTypeService.addType(dietType);
+        if (dietTypeService.isEmpty()) {
+            for (DietType dietType : DietType.values()) {
+                dietTypeService.addType(dietType);
+            }
         }
     }
 }

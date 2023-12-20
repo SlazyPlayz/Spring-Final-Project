@@ -3,7 +3,9 @@ package bg.softuni.springexam.model.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -16,13 +18,13 @@ public class DietEntity extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @ElementCollection
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "diets_recipes",
-            joinColumns = { @JoinColumn(name = "diet_id") }
+            joinColumns = { @JoinColumn(name = "diet_id") },
+            inverseJoinColumns = { @JoinColumn(name = "recipe_id") }
     )
-    @MapKeyJoinColumn(name = "recipe_id")
-    private Map<RecipeEntity, Double> recipes;
+    private List<RecipeEntity> recipes;
 
     @ManyToOne
     private DietTypeEntity type;
@@ -34,7 +36,7 @@ public class DietEntity extends BaseEntity {
     private LocalDateTime created;
 
     public DietEntity() {
-        recipes = new HashMap<>();
+        recipes = new ArrayList<>();
     }
 
     public String getName() {
@@ -52,15 +54,6 @@ public class DietEntity extends BaseEntity {
 
     public DietEntity setDescription(String description) {
         this.description = description;
-        return this;
-    }
-
-    public Map<RecipeEntity, Double> getRecipes() {
-        return recipes;
-    }
-
-    public DietEntity setRecipes(Map<RecipeEntity, Double> recipes) {
-        this.recipes = recipes;
         return this;
     }
 
@@ -88,6 +81,15 @@ public class DietEntity extends BaseEntity {
 
     public DietEntity setType(DietTypeEntity type) {
         this.type = type;
+        return this;
+    }
+
+    public List<RecipeEntity> getRecipes() {
+        return recipes;
+    }
+
+    public DietEntity setRecipes(List<RecipeEntity> recipes) {
+        this.recipes = recipes;
         return this;
     }
 }

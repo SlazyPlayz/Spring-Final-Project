@@ -1,13 +1,15 @@
 package bg.softuni.springexam.service.impl;
 
+import bg.softuni.springexam.exception.RecipeNotFoundException;
 import bg.softuni.springexam.exception.RoleNotFoundException;
-import bg.softuni.springexam.exception.UserNotFoundException;
 import bg.softuni.springexam.model.dto.user.UserRegisterBindingModel;
 import bg.softuni.springexam.model.entity.RoleEntity;
 import bg.softuni.springexam.model.entity.UserEntity;
 import bg.softuni.springexam.model.enums.Role;
+import bg.softuni.springexam.repository.RecipeRepository;
 import bg.softuni.springexam.repository.RoleRepository;
 import bg.softuni.springexam.repository.UserRepository;
+import bg.softuni.springexam.service.RecipeService;
 import bg.softuni.springexam.service.UserService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,12 +27,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final RecipeRepository recipeRepository;
 
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
-                           RoleRepository roleRepository) {
+                           RoleRepository roleRepository,
+                           RecipeRepository recipeRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
+        this.recipeRepository = recipeRepository;
     }
 
     @Override
@@ -66,5 +71,35 @@ public class UserServiceImpl implements UserService {
                 .findByUsername(currentUserName)
                 .orElse(null);
 //                .orElseThrow(() -> new UserNotFoundException(currentUserName));
+    }
+
+    @Override
+    public void addFavourite(UUID recipeId) {
+        loggedUser().addFavouriteRecipe(
+                recipeRepository
+                        .findById(recipeId)
+                        .orElseThrow(() -> new RecipeNotFoundException(recipeId))
+        );
+
+        userRepository.save(loggedUser());
+    }
+
+    @Override
+    public void removeFavourite(UUID recipeId) {
+        loggedUser().removeFavouriteRecipe(
+                recipeRepository
+                        .findById(recipeId)
+                        .orElseThrow(() -> new RecipeNotFoundException(recipeId))
+        );
+
+        userRepository.save(loggedUser());
+    }
+
+    @Override
+    public boolean isFavourite(UUID recipeId) {
+        if (loggedUser() != null) {
+            return loggedUser().getFavouriteRecipes().stream().anyMatch(x -> x.getId().equals(recipeId));
+        }
+        return false;
     }
 }

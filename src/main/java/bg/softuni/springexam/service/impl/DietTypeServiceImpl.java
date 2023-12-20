@@ -20,4 +20,14 @@ public class DietTypeServiceImpl implements DietTypeService {
     public void addType(DietType type) {
         dietTypeRepository.save(new DietTypeEntity().setName(type));
     }
+
+    @Override
+    public boolean isEmpty() {
+        return dietTypeRepository.count() == 0;
+    }
+
+    @Override
+    public DietTypeEntity findByName(DietType type) {
+        return dietTypeRepository.findByName(type);
+    }
 }
